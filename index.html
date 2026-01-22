@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sethunya - Modern Marketing Solutions</title>
+    <style>
+        /*
+        * Global Styles & Variables
+        */
+        :root {
+            --primary-color: #28a745; /* Modern Green */
+            --secondary-color: #ffc107; /* Vibrant Yellow */
+            --text-color: #343a40; /* Dark Gray */
+            --light-text-color: #f8f9fa; /* Off-white for contrast on dark backgrounds */
+            --background-color: #f8f9fa; /* Off-white */
+            --border-color: #e9ecef; /* Light gray for subtle borders */
+            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+            --max-width: 1200px;
+            --section-padding-y: 80px;
+            --section-padding-x: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; /* Base font size */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-color);
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 3em; } /* 48px */
+        h2 { font-size: 2.25em; } /* 36px */
+        h3 { font-size: 1.75em; } /* 28px */
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        /*
+        * Utility Classes
+        */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--section-padding-x);
+        }
+
+        .section-padding {
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /*
+        * Buttons
+        */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            padding: 0 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #218838; /* Slightly darker green */
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            transform: translateY(-2px);
+        }
+
+        /*
+        * Navigation Bar
+        */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--light-text-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            height: 40px; /* Max height for logo */
+        }
+
+        .navbar-logo img {
+            max-height: 40px;
+            width: auto;
+        }
+
+        .navbar-links {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+        }
+
+        .navbar-links a {
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .navbar-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.2s ease-in-out;
+        }
+
+        .navbar-links a:hover::after,
+        .navbar-links a.active::after {
+            width: 100%;
+        }
+
+        /* Hamburger menu for mobile */
+        .nav-toggle-label {
+            display: none; /* Hidden on desktop */
+            cursor: pointer;
+            font-size: 1.8em;
+            color: var(--text-color);
+            z-index: 1001;
+        }
+
+        #nav-toggle {
+            display: none; /* Hide the checkbox */
+        }
+
+        /*
+        * Hero Section
+        */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--light-text-color);
+            padding-top: 80px; /* Offset for fixed header */
+
+            /* CRITICAL IMAGE USAGE - DO NOT MODIFY */
+            background-image: url('hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        #hero > * {
+            position: relative;
+            z-index: 2;
+        }
+        /* END CRITICAL IMAGE USAGE */
+
+        #hero .container {
+            max-width: 900px;
+        }
+
+        #hero h1 {
+            font-size: 4.5em; /* 72px */
+            margin-bottom: 0.2em;
+            color: var(--light-text-color);
+        }
+
+        #hero p {
+            font-size: 1.5em; /* 24px */
+            margin-bottom: 2em;
+            color: var(--light-text-color);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /*
+        * About Section
+        */
+        #about {
+            background-color: var(--light-text-color);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h2 {
+            color: var(--primary-color);
+        }
+
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+        .about-image img {
+            /* CRITICAL IMAGE USAGE - DO NOT MODIFY */
+            width: 100%; max-width: 500px; height: auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            /* END CRITICAL IMAGE USAGE */
+        }
+
+
+        /*
+        * Services/Features Section
+        */
+        #services h2 {
+            margin-bottom: 48px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .service-card {
+            background-color: var(--light-text-color);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            height: 100%; /* Ensure cards are same height in grid */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .service-card-icon {
+            font-size: 3.5em; /* Unicode icon size */
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: inline-block;
+            line-height: 1; /* Ensure icon doesn't add extra space */
+        }
+
+        .service-card h3 {
+            font-size: 1.5em; /* 24px */
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .service-card p {
+            font-size: 1em;
+            color: var(--text-color);
+            margin-bottom: 0;
+            flex-grow: 1; /* Allow description to take available height */
+        }
+
+        /*
+        * Social Proof Section
+        */
+        #social-proof {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            text-align: center;
+        }
+
+        #social-proof h2 {
+            color: var(--light-text-color);
+            margin-bottom: 32px;
+        }
+
+        .testimonial {
+            font-size: 1.4em; /* 22.4px */
+            font-style: italic;
+            margin-bottom: 16px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: var(--secondary-color);
+        }
+
+
+        /*
+        * Call-to-Action Section
+        */
+        #cta {
+            text-align: center;
+            color: var(--light-text-color);
+
+            /* CRITICAL IMAGE USAGE - DO NOT MODIFY */
+            background-image: url('cta-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        #cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        #cta > * {
+            position: relative;
+            z-index: 2;
+        }
+        /* END CRITICAL IMAGE USAGE */
+
+        #cta h2 {
+            font-size: 3em; /* 48px */
+            color: var(--light-text-color);
+            margin-bottom: 32px;
+        }
+
+        /*
+        * Footer
+        */
+        .footer {
+            background-color: var(--text-color);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.875em; /* 14px */
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        /*
+        * Responsive Design
+        */
+        /* Mobile styles first (default) */
+        .navbar-links {
+            position: fixed;
+            top: 0; /* Adjust this to below header height if needed */
+            right: -100%; /* Off-screen by default */
+            width: 70%; /* Take up 70% of screen width */
+            height: 100vh;
+            background-color: var(--background-color);
+            flex-direction: column;
+            justify-content: flex-start; /* Align items to the top */
+            padding-top: 80px; /* Space for header */
+            box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease-in-out;
+            z-index: 999;
+            align-items: center; /* Center items in the mobile nav */
+        }
+
+        .navbar-links li {
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar-links li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar-links a {
+            font-size: 1.2em;
+            display: block;
+            width: 100%;
+            color: var(--text-color);
+            padding: 0; /* Reset padding from desktop */
+        }
+        .navbar-links a::after {
+            display: none; /* Hide hover underline on mobile menu */
+        }
+
+        .nav-toggle-label {
+            display: block; /* Show hamburger on mobile */
+        }
+
+        #nav-toggle:checked ~ .navbar-links {
+            right: 0; /* Slide in */
+        }
+
+        /* Hero section adjustments for mobile */
+        #hero h1 {
+            font-size: 3em; /* 48px */
+        }
+        #hero p {
+            font-size: 1.1em; /* 17.6px */
+        }
+        .hero-buttons {
+            flex-direction: column;
+            gap: 16px;
+        }
+        .hero-buttons .btn {
+            width: 100%;
+            max-width: 280px;
+        }
+
+        /* About section adjustments for mobile */
+        .about-content {
+            flex-direction: column;
+        }
+        .about-image {
+            order: -1; /* Image above text on mobile */
+            margin-bottom: 32px;
+        }
+
+        /* CTA section adjustments for mobile */
+        #cta h2 {
+            font-size: 2.25em; /* 36px */
+        }
+
+        /* Breakpoint for Tablets (768px) */
+        @media (min-width: 768px) {
+            h1 { font-size: 3.5em; } /* 56px */
+            h2 { font-size: 2.5em; } /* 40px */
+            h3 { font-size: 2em; } /* 32px */
+
+            .navbar-links {
+                position: static;
+                width: auto;
+                height: auto;
+                background-color: transparent;
+                flex-direction: row;
+                padding-top: 0;
+                box-shadow: none;
+                transition: none;
+            }
+            .navbar-links li {
+                width: auto;
+                padding: 0;
+                border-bottom: none;
+            }
+            .navbar-links a {
+                font-size: 1em;
+                padding: 8px 0;
+            }
+            .navbar-links a::after {
+                display: block; /* Re-enable underline */
+            }
+
+            .nav-toggle-label {
+                display: none; /* Hide hamburger */
+            }
+
+            #hero h1 {
+                font-size: 4em; /* 64px */
+            }
+            #hero p {
+                font-size: 1.3em; /* 20.8px */
+            }
+            .hero-buttons {
+                flex-direction: row;
+            }
+            .hero-buttons .btn {
+                width: auto;
+                max-width: none;
+            }
+
+            .about-content {
+                flex-direction: row;
+            }
+            .about-image {
+                order: 0; /* Reset order */
+                margin-bottom: 0;
+            }
+
+            #cta h2 {
+                font-size: 2.5em; /* 40px */
+            }
+        }
+
+        /* Breakpoint for Desktops (1024px) */
+        @media (min-width: 1024px) {
+            h1 { font-size: 4.5em; } /* 72px */
+            h2 { font-size: 3em; } /* 48px */
+            h3 { font-size: 2.25em; } /* 36px */
+
+            #hero h1 {
+                font-size: 4.5em; /* 72px */
+            }
+            #hero p {
+                font-size: 1.5em; /* 24px */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container navbar">
+            <a href="#hero" class="navbar-logo">
+                <img src="sethunya-logo.png" alt="Sethunya Logo" style="max-height: 40px;">
+            </a>
+            <input type="checkbox" id="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">&#9776;</label> <!-- Hamburger icon -->
+            <nav class="navbar-links">
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#social-proof">Testimonials</a></li>
+                <li><a href="#cta">Contact</a></li>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <h1>Unlock Your Brand's Full Potential</h1>
+            <p>Sethunya provides cutting-edge marketing strategies to help your business bloom and connect with your audience effectively.</p>
+            <div class="hero-buttons">
+                <a href="#cta" class="btn btn-primary">Get a Free Consultation</a>
+                <a href="#services" class="btn btn-outline">Explore Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About/Value Proposition Section -->
+    <section id="about" class="section-padding">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Sethunya: Cultivating Growth in Digital Spaces</h2>
+                    <p>At Sethunya, we believe every business has a unique story waiting to be told. Our name, meaning "bloom" in Setswana, reflects our mission: to help your brand flourish in the competitive digital landscape. We're a team of passionate marketing experts dedicated to crafting tailored strategies that deliver measurable results.</p>
+                    <p>From captivating content to precision-targeted campaigns, we empower businesses to connect with their audience, build lasting relationships, and achieve sustainable growth. We blend creativity with data-driven insights to ensure your marketing efforts not only look good but also perform exceptionally.</p>
+                    <a href="#services" class="btn btn-primary">Discover How We Help</a>
+                </div>
+                <!-- CRITICAL IMAGE USAGE - DO NOT MODIFY -->
+                <div class="about-image">
+                  <img src="about-img.jpg" alt="About Sethunya" style="width: 100%; max-width: 500px; height: auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                </div>
+                <!-- END CRITICAL IMAGE USAGE -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services/Features Section -->
+    <section id="services" class="section-padding text-center">
+        <div class="container">
+            <h2>Our Expertise: Digital Marketing Solutions That Deliver</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-card-icon">&#128269;</span> <!-- Magnifying Glass -->
+                    <h3>Search Engine Optimization</h3>
+                    <p>Improve your online visibility and attract more organic traffic with our expert SEO strategies, focusing on keywords, content, and technical optimization.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">&#128227;</span> <!-- Megaphone -->
+                    <h3>Social Media Marketing</h3>
+                    <p>Build a strong brand presence and engage with your community through compelling social media campaigns across all major platforms.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">&#128172;</span> <!-- Speech Bubble -->
+                    <h3>Content Marketing</h3>
+                    <p>Create valuable, relevant, and consistent content that attracts and retains a clearly defined audience, driving profitable customer action.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">&#128187;</span> <!-- Laptop -->
+                    <h3>Website Design & Development</h3>
+                    <p>Craft stunning, user-friendly, and responsive websites optimized for conversions and an exceptional user experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section id="social-proof" class="section-padding">
+        <div class="container">
+            <h2>What Our Clients Say</h2>
+            <p class="testimonial">"Sethunya transformed our digital presence! Their strategic approach to SEO and content marketing significantly boosted our organic traffic and conversions. Highly recommend their professional and results-driven team."</p>
+            <p class="testimonial-author">- Aisha Khan, CEO of Tech Innovations</p>
+        </div>
+    </section>
+
+    <!-- Call-to-Action Section -->
+    <section id="cta" class="section-padding">
+        <div class="container">
+            <h2>Ready to Grow Your Business?</h2>
+            <p style="font-size: 1.25em; margin-bottom: 40px; color: var(--light-text-color);">Let's discuss how Sethunya can help your brand thrive in the digital world.</p>
+            <a href="mailto:info@sethunya.com" class="btn btn-primary">Contact Us Today</a>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sethunya. All rights reserved. | <a href="#" style="color: rgba(255, 255, 255, 0.7);">Privacy Policy</a> | <a href="#" style="color: rgba(255, 255, 255, 0.7);">Terms of Service</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>
